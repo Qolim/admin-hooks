@@ -1,0 +1,31 @@
+{
+  "name": "admin-hooks",
+  "version": "0.0.1",
+  "description": "hooks from admin systom with react",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Qolim/admin-hooks.git"
+  },
+  "keywords": [
+    "hooks",
+    "admin",
+    "react"
+  ],
+  "author": "ilim",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Qolim/admin-hooks/issues"
+  },
+  "homepage": "https://github.com/Qolim/admin-hooks#readme",
+  "devDependencies": {
+    "typescript": "^4.2.3"
+  },
+  "dependencies": {
+    "react": "^17.0.1"
+  }
+}
