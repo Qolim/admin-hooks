@@ -1,7 +1,7 @@
 /*
  * @Author: LimingQi
  * @Date: 2021-03-07 07:03:40
- * @LastEditTime: 2021-03-07 07:29:31
+ * @LastEditTime: 2021-03-07 07:40:53
  * @LastEditors: LimingQi
  * @Description:类型定义文件
  * @FilePath: /admin-hooks/src/table-page/types.ts
@@ -33,6 +33,7 @@ export type PageDataStoreType<T> = {
 
 export type RequestsTypes = {
   getDataRequest: GetDataRequestType
+  addNewRequest?: AddNewRequestType<any>
 }
 
 export type SetRequestParamsStoreType = (requestParams: GetPageDataRequestParamsStoreTypes | ((requestParams: GetPageDataRequestParamsStoreTypes) => GetPageDataRequestParamsStoreTypes)) => void

@@ -1,7 +1,7 @@
 /*
  * @Author: LimingQi
  * @Date: 2021-03-07 06:30:36
- * @LastEditTime: 2021-03-07 07:28:12
+ * @LastEditTime: 2021-03-07 07:47:27
  * @LastEditors: LimingQi
  * @Description: 新增
  * @FilePath: /admin-hooks/src/table-page/add-new.ts
@@ -12,7 +12,7 @@ import React from "react";
 import { AddNewRequestType, SetAddNewFormDataType, UpdateTablePageDataType } from "./types";
 
 /**
- * 新增请求
+ * 新增数据 hook
  * @param addNewRequest 请求请求函数 接受formData作为参数 返回一个Promise或者[Promise,注销请求函数]的元祖
  * @param updateTablePageData 跟新列表页函数
  * @returns 返回请求加载状态 新增函数(传入新增表单) 新增表单 

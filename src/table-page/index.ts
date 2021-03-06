@@ -1,7 +1,7 @@
 /*
  * @Author: LimingQi
  * @Date: 2021-03-07 02:40:45
- * @LastEditTime: 2021-03-07 07:29:55
+ * @LastEditTime: 2021-03-07 07:47:34
  * @LastEditors: LimingQi
  * @Description:列表页请求逻辑以及数据管理hook
  * @FilePath: /admin-hooks/src/table-page/index.ts
@@ -23,6 +23,7 @@ import {
   PageDataMapType,
   PageDataStoreType,
   RequestsTypes,
+  SetAddNewFormDataType,
   SetRequestParamsStoreType,
   UpdateTablePageDataType
 } from "./types"
@@ -34,7 +35,7 @@ import {
  * @param initRequestParamsStore 初始请求参数配置
  * @returns 列表页状态 以及修改状态的函数
  */
-export function useTablePage<T = any>(
+export function useTablePage<T = any, F = any>(
   requests: RequestsTypes,
   pageDataMap?: PageDataMapType,
   initRequestParamsStore?: InitGetPageDataRequestParamsStoreTypes
@@ -48,9 +49,12 @@ export function useTablePage<T = any>(
   changeRequestPageSize: ChangeRequestPageType
   changeRequestOther: ChangeRequestFiltersType
   updateTablePageData: UpdateTablePageDataType
+  addNewLoading: boolean
+  addNewFormDataStore: F | undefined
+  addNew: SetAddNewFormDataType<F>
 } {
 
-  const { getDataRequest } = requests
+  const { getDataRequest, addNewRequest } = requests
 
   /** 请求参数数据相关 */
   const {
@@ -68,7 +72,15 @@ export function useTablePage<T = any>(
     set_pageDataStore,
   } = usePageDataStore<T>()
 
-  // const { } = useAddNew()
+  /** 新增数据hook*/
+  const {
+    addNewLoading,
+    addNew,
+    addNewFormDataStore
+  } = useAddNew<F>(
+    addNewRequest || (() => new Promise(() => { })),
+    updateTablePageData
+  )
 
   /** 请求加载状态 */
   const [
@@ -108,6 +120,9 @@ export function useTablePage<T = any>(
     changeRequestPageNumber,
     changeRequestPageSize,
     changeRequestOther,
-    updateTablePageData
+    updateTablePageData,
+    addNewFormDataStore,
+    addNewLoading,
+    addNew,
   }
 }
