@@ -1,7 +1,7 @@
 /*
  * @Author: LimingQi
  * @Date: 2021-03-07 03:04:05
- * @LastEditTime: 2021-03-07 05:41:36
+ * @LastEditTime: 2021-03-07 05:48:02
  * @LastEditors: LimingQi
  * @Description:列表页请求参数状态集合
  * @FilePath: /admin-hooks/src/table-page/store/request-params.ts
@@ -10,7 +10,7 @@
 import React from "react"
 
 export interface InitRequestParamsStoreTypes {
-  filters: { [name: string]: any }
+  filters?: { [name: string]: any }
   pageNumber?: number
   pageSize?: number
   other?: { [name: string]: any }
@@ -53,7 +53,7 @@ export function useRequestParamsStore(
     requestParamsStore,
     set_requestParamsStore
   ] = React.useState<RequestParamsStoreTypes>({
-    filters: initRequestParamsStore.filters,
+    filters: initRequestParamsStore.filters || {},
     pageNumber: initRequestParamsStore.pageNumber || 1,
     pageSize: initRequestParamsStore.pageSize || 10,
     other: initRequestParamsStore.other || {}
