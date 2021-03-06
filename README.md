@@ -28,7 +28,7 @@ npm i admin-hooks -S
     // 手动重新发起请求（使用状态中的请求参数）
     updateTablePageData
   } = useTablePage<
-    // 列表的类型定义
+    // 每项列表数据的类型定义 默认any
     { name: string }
   >(
     // 第一个参数为请求函数
