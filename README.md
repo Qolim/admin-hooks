@@ -5,3 +5,10 @@ hooks for admin systom with react
 npm i admin-hooks -S
 
 ## api
+* useTablePage
+
+```typescript
+  const {} = useTablePage(
+    /** 请求 */
+  )
+```
