@@ -2,8 +2,8 @@
   "name": "admin-hooks",
   "version": "0.0.2",
   "description": "hooks from admin systom with react",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc -p ."
   },
