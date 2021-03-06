@@ -1,7 +1,7 @@
 /*
  * @Author: LimingQi
  * @Date: 2021-03-07 03:25:37
- * @LastEditTime: 2021-03-07 04:28:43
+ * @LastEditTime: 2021-03-07 05:26:34
  * @LastEditors: LimingQi
  * @Description:页面显示数据状态hook
  * @FilePath: /admin-hooks/src/table-page/store/page-data.ts
@@ -20,7 +20,7 @@ export interface PageDataStoreType<T> {
 
 export function usePageDataStore<T = any>(): {
   pageDataStore: PageDataStoreType<T>
-  set_pageDataStore: (pageData: PageDataStoreType<T>) => void
+  set_pageDataStore: (pageData: PageDataStoreType<T> | ((pageDataStore: PageDataStoreType<T>) => PageDataStoreType<T>)) => void
   // changePageNumber: (pageNumber: number) => void
   // changePageSize: (pageSize: number) => void
 } {

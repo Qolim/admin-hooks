@@ -1,7 +1,7 @@
 /*
  * @Author: LimingQi
  * @Date: 2021-03-07 04:32:04
- * @LastEditTime: 2021-03-07 04:38:43
+ * @LastEditTime: 2021-03-07 05:29:05
  * @LastEditors: LimingQi
  * @Description: 列表页面请求hook
  * @FilePath: /admin-hooks/src/table-page/http.ts
@@ -9,22 +9,21 @@
  */
 
 import * as React from "react"
-import { PageDataStoreMapKeys } from "."
 import { PageDataStoreType, RequestParamsStoreTypes } from "./store"
 
 export function useTablePageHttp<T>({
   requestParamsStore,
   requestPromise,
   set_loading,
-  pageDataMap,
+  pageDataMap = {},
   set_pageDataStore,
   updateTimestamp
 }: {
   requestParamsStore: RequestParamsStoreTypes
   requestPromise: (requestParams: RequestParamsStoreTypes) => [Promise<any>, () => void] | (Promise<any>)
   set_loading: (loading: boolean) => void
-  pageDataMap: Map<PageDataStoreMapKeys, string>
-  set_pageDataStore: (pageData: PageDataStoreType<T>) => void
+  pageDataMap?: { tableData?: string, total?: string },
+  set_pageDataStore: (pageData: PageDataStoreType<T> | ((pageData: PageDataStoreType<T>) => PageDataStoreType<T>)) => void
   updateTimestamp: number
 }) {
 
@@ -39,9 +38,9 @@ export function useTablePageHttp<T>({
 
     http.then(res => {
 
-      const tableDataKey = pageDataMap.get("tableData") || "tableData";
+      const tableDataKey = pageDataMap.tableData || "tableData";
 
-      const totalKey = pageDataMap.get("total") || "total";
+      const totalKey = pageDataMap.total || "total";
 
       set_pageDataStore({
         tableData: res[tableDataKey],

@@ -1,9 +1,9 @@
 /*
  * @Author: LimingQi
  * @Date: 2021-03-07 02:40:45
- * @LastEditTime: 2021-03-07 05:07:35
+ * @LastEditTime: 2021-03-07 05:44:38
  * @LastEditors: LimingQi
- * @Description:
+ * @Description:列表页请求逻辑以及数据管理hook
  * @FilePath: /admin-hooks/src/table-page/index.ts
  * Github: https://github.com/Qolim
  */
@@ -18,28 +18,26 @@ import {
   PageDataStoreType,
 } from "./store"
 
-export type PageDataStoreMapKeys = "tableData" | "total"
-
 /**
  * 列表页请求逻辑以及数据管理hook
  * @param requestPromise 执行请求的函数 接受请求参数数据 返回一个元祖[请求函数(返回一个promise),注销请求函数]或者只返回一个请求函数(返回一个promise)
- * @param pageDataMap 接口返回参数 "tableData" 和 "total"的map映射
+ * @param pageDataMap 接口返回参数 "tableData" 和 "total"的字段映射
  * @param initRequestParamsStore 初始请求参数配置
  * @returns 列表页状态 以及修改状态的函数
  */
 export function useTablePage<T = any>(
   requestPromise: (requestParams: RequestParamsStoreTypes) => [Promise<any>, () => void] | (Promise<any>),
-  pageDataMap: Map<PageDataStoreMapKeys, string>,
+  pageDataMap?: { tableData?: string, total?: string },
   initRequestParamsStore?: InitRequestParamsStoreTypes
 ): {
   pageDataStore: PageDataStoreType<T>
   requestParamsStore: RequestParamsStoreTypes
   loading: boolean
-  set_requestParamsStore: (requestParams: RequestParamsStoreTypes) => void
-  changeRequestFilters: (filters: { [name: string]: any }) => void
-  changeRequestPageNumber: (pageNumber: number) => void
-  changeRequestPageSize: (pageNumber: number) => void
-  changeRequestOther: (other: { [name: string]: any }) => void
+  set_requestParamsStore: (requestParams: RequestParamsStoreTypes | ((requestParams: RequestParamsStoreTypes) => RequestParamsStoreTypes)) => void
+  changeRequestFilters: (filters: { [name: string]: any } | ((filters: { [name: string]: any }) => { [name: string]: any })) => void
+  changeRequestPageNumber: (pageNumber: number | ((pageNumber: number) => number)) => void
+  changeRequestPageSize: (pageNumber: number | ((pageNumber: number) => number)) => void
+  changeRequestOther: (other: { [name: string]: any } | ((other: { [name: string]: any }) => { [name: string]: any })) => void
   updateTablePageData: () => void
 } {
 

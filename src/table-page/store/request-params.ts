@@ -1,7 +1,7 @@
 /*
  * @Author: LimingQi
  * @Date: 2021-03-07 03:04:05
- * @LastEditTime: 2021-03-07 04:17:39
+ * @LastEditTime: 2021-03-07 05:41:36
  * @LastEditors: LimingQi
  * @Description:列表页请求参数状态集合
  * @FilePath: /admin-hooks/src/table-page/store/request-params.ts
@@ -33,11 +33,11 @@ export function useRequestParamsStore(
   initRequestParamsStore?: InitRequestParamsStoreTypes
 ): {
   requestParamsStore: RequestParamsStoreTypes
-  set_requestParamsStore: (requestParams: RequestParamsStoreTypes) => void
-  changeRequestFilters: (filters: { [name: string]: any }) => void
-  changeRequestPageNumber: (pageNumber: number) => void
-  changeRequestPageSize: (pageSize: number) => void
-  changeRequestOther: (other: { [name: string]: any }) => void
+  set_requestParamsStore: (requestParams: RequestParamsStoreTypes | ((requestParams: RequestParamsStoreTypes) => RequestParamsStoreTypes)) => void
+  changeRequestFilters: (filters: { [name: string]: any } | ((filters: { [name: string]: any }) => { [name: string]: any })) => void
+  changeRequestPageNumber: (pageNumber: number | ((pageNumber: number) => number)) => void
+  changeRequestPageSize: (pageSize: number | ((pageSize: number) => number)) => void
+  changeRequestOther: (other: { [name: string]: any } | ((other: { [name: string]: any }) => { [nama: string]: any })) => void
 } {
 
   /** 默认初始参数 */
@@ -63,44 +63,72 @@ export function useRequestParamsStore(
    * 更新请求检索项
    * @param filters 更新后的检索项
    */
-  function changeRequestFilters(filters: { [name: string]: any }) {
-    set_requestParamsStore({
-      ...requestParamsStore,
-      filters
-    })
+  function changeRequestFilters(filters: { [name: string]: any } | ((f: { [name: string]: any }) => { [name: string]: any })) {
+    if (typeof filters === "function") {
+      set_requestParamsStore(s => ({
+        ...s,
+        filters: filters(s.filters)
+      }))
+    } else {
+      set_requestParamsStore(s => ({
+        ...s,
+        filters
+      }))
+    }
   }
 
   /**
    * 更新请求页
    * @param pageNumber 更新后的请求页
    */
-  function changeRequestPageNumber(pageNumber: number) {
-    set_requestParamsStore({
-      ...requestParamsStore,
-      pageNumber
-    })
+  function changeRequestPageNumber(pageNumber: number | ((p: number) => number)) {
+    if (typeof pageNumber === "function") {
+      set_requestParamsStore(s => ({
+        ...s,
+        pageNumber: pageNumber(s.pageNumber)
+      }))
+    } else {
+      set_requestParamsStore(s => ({
+        ...s,
+        pageNumber
+      }))
+    }
   }
 
   /**
    * 更新请求每页数量
    * @param pageSize 更新后的每页数量
    */
-  function changeRequestPageSize(pageSize: number) {
-    set_requestParamsStore({
-      ...requestParamsStore,
-      pageSize
-    })
+  function changeRequestPageSize(pageSize: number | ((p: number) => number)) {
+    if (typeof pageSize === "function") {
+      set_requestParamsStore(s => ({
+        ...s,
+        pageSize: pageSize(s.pageSize)
+      }))
+    } else {
+      set_requestParamsStore(s => ({
+        ...s,
+        pageSize
+      }))
+    }
   }
 
   /**
    * 更新其他请求参数
    * @param other 跟新后的其他请求参数
    */
-  function changeRequestOther(other: { [name: string]: any }) {
-    set_requestParamsStore({
-      ...requestParamsStore,
-      other
-    })
+  function changeRequestOther(other: { [name: string]: any } | ((o: { [name: string]: any }) => { [name: string]: any })) {
+    if (typeof other === "function") {
+      set_requestParamsStore(s => ({
+        ...s,
+        other: other(s.other)
+      }))
+    } else {
+      set_requestParamsStore(s => ({
+        ...s,
+        other
+      }))
+    }
   }
 
   return {
