@@ -39,7 +39,19 @@ npm i admin-hooks -S
       // 返回一个Promise
       new Promise((resolve, reject) => {
         // ...
-      }),
+      }) |
+      //或者返回一个元祖
+      [
+        // 第一项为请求的Promise
+        new Promise((resolve, reject) => {
+          // ...
+        }),
+        //第二项为注销请求的函数
+        ()=>{
+          //...
+        }
+      ]
+      ,
     // 第二个参数为接口返回数据到 pageDataStore(表格数据) 的字段映射 不传使用默认
     {
       // 列表数据字段 默认"tableData"
