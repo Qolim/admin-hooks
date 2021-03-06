@@ -1,27 +1,20 @@
 /*
  * @Author: LimingQi
  * @Date: 2021-03-07 03:04:05
- * @LastEditTime: 2021-03-07 05:48:02
+ * @LastEditTime: 2021-03-07 07:31:43
  * @LastEditors: LimingQi
  * @Description:列表页请求参数状态集合
  * @FilePath: /admin-hooks/src/table-page/store/request-params.ts
  * Github: https://github.com/Qolim
  */
 import React from "react"
-
-export interface InitRequestParamsStoreTypes {
-  filters?: { [name: string]: any }
-  pageNumber?: number
-  pageSize?: number
-  other?: { [name: string]: any }
-}
-
-export interface RequestParamsStoreTypes {
-  filters: { [name: string]: any }
-  pageNumber: number
-  pageSize: number
-  other: { [name: string]: any }
-}
+import {
+  ChangeRequestFiltersType,
+  ChangeRequestPageType,
+  GetPageDataRequestParamsStoreTypes,
+  InitGetPageDataRequestParamsStoreTypes,
+  SetRequestParamsStoreType
+} from "../types"
 
 
 /**
@@ -30,14 +23,14 @@ export interface RequestParamsStoreTypes {
  * @returns 请求参数状态、以及相关更新方法
  */
 export function useRequestParamsStore(
-  initRequestParamsStore?: InitRequestParamsStoreTypes
+  initRequestParamsStore?: InitGetPageDataRequestParamsStoreTypes
 ): {
-  requestParamsStore: RequestParamsStoreTypes
-  set_requestParamsStore: (requestParams: RequestParamsStoreTypes | ((requestParams: RequestParamsStoreTypes) => RequestParamsStoreTypes)) => void
-  changeRequestFilters: (filters: { [name: string]: any } | ((filters: { [name: string]: any }) => { [name: string]: any })) => void
-  changeRequestPageNumber: (pageNumber: number | ((pageNumber: number) => number)) => void
-  changeRequestPageSize: (pageSize: number | ((pageSize: number) => number)) => void
-  changeRequestOther: (other: { [name: string]: any } | ((other: { [name: string]: any }) => { [nama: string]: any })) => void
+  requestParamsStore: GetPageDataRequestParamsStoreTypes
+  set_requestParamsStore: SetRequestParamsStoreType
+  changeRequestFilters: ChangeRequestFiltersType
+  changeRequestPageNumber: ChangeRequestPageType
+  changeRequestPageSize: ChangeRequestPageType
+  changeRequestOther: ChangeRequestFiltersType
 } {
 
   /** 默认初始参数 */
@@ -52,7 +45,7 @@ export function useRequestParamsStore(
   const [
     requestParamsStore,
     set_requestParamsStore
-  ] = React.useState<RequestParamsStoreTypes>({
+  ] = React.useState<GetPageDataRequestParamsStoreTypes>({
     filters: initRequestParamsStore.filters || {},
     pageNumber: initRequestParamsStore.pageNumber || 1,
     pageSize: initRequestParamsStore.pageSize || 10,

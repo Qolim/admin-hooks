@@ -1,28 +1,23 @@
 /*
  * @Author: LimingQi
  * @Date: 2021-03-07 03:25:37
- * @LastEditTime: 2021-03-07 05:26:34
+ * @LastEditTime: 2021-03-07 07:34:14
  * @LastEditors: LimingQi
  * @Description:页面显示数据状态hook
  * @FilePath: /admin-hooks/src/table-page/store/page-data.ts
  * Github: https://github.com/Qolim
  */
 
-import * as React from "react";
+import React from "react";
+import { PageDataStoreType, SetPageDataStoreType } from "../types";
 
-export interface PageDataStoreType<T> {
-  tableData: T[]
-  pageNumber: number
-  pageSize: number
-  total: number
-  other: { [name: string]: any }
-}
-
+/**
+ * 列表页数据管理hook
+ * @returns 列表页数据 更新数据函数
+ */
 export function usePageDataStore<T = any>(): {
   pageDataStore: PageDataStoreType<T>
-  set_pageDataStore: (pageData: PageDataStoreType<T> | ((pageDataStore: PageDataStoreType<T>) => PageDataStoreType<T>)) => void
-  // changePageNumber: (pageNumber: number) => void
-  // changePageSize: (pageSize: number) => void
+  set_pageDataStore: SetPageDataStoreType<T>
 } {
 
   const [
@@ -36,33 +31,9 @@ export function usePageDataStore<T = any>(): {
     other: {}
   })
 
-  /**
-   * 更新当前页
-   * @param pageNumber 当前页
-   */
-  // function changePageNumber(pageNumber: number) {
-  //   set_pageDataStore({
-  //     ...pageDataStore,
-  //     pageNumber
-  //   })
-  // }
-
-  /**
-   * 更新每页数量
-   * @param pageSize 每页数量
-   */
-  // function changePageSize(pageSize: number) {
-  //   set_pageDataStore({
-  //     ...pageDataStore,
-  //     pageSize
-  //   })
-  // }
-
   return {
     pageDataStore,
     set_pageDataStore,
-    // changePageNumber,
-    // changePageSize
   }
 
 }
