@@ -1,7 +1,7 @@
 /*
  * @Author: LimingQi
  * @Date: 2021-03-07 02:40:45
- * @LastEditTime: 2021-03-07 04:44:27
+ * @LastEditTime: 2021-03-07 05:07:35
  * @LastEditors: LimingQi
  * @Description:
  * @FilePath: /admin-hooks/src/table-page/index.ts
@@ -28,7 +28,7 @@ export type PageDataStoreMapKeys = "tableData" | "total"
  * @returns 列表页状态 以及修改状态的函数
  */
 export function useTablePage<T = any>(
-  requestPromise: (requestParams: RequestParamsStoreTypes) => [() => Promise<any>, () => void] | (() => Promise<any>),
+  requestPromise: (requestParams: RequestParamsStoreTypes) => [Promise<any>, () => void] | (Promise<any>),
   pageDataMap: Map<PageDataStoreMapKeys, string>,
   initRequestParamsStore?: InitRequestParamsStoreTypes
 ): {

@@ -21,7 +21,7 @@ export function useTablePageHttp<T>({
   updateTimestamp
 }: {
   requestParamsStore: RequestParamsStoreTypes
-  requestPromise: (requestParams: RequestParamsStoreTypes) => [() => Promise<any>, () => void] | (() => Promise<any>)
+  requestPromise: (requestParams: RequestParamsStoreTypes) => [Promise<any>, () => void] | (Promise<any>)
   set_loading: (loading: boolean) => void
   pageDataMap: Map<PageDataStoreMapKeys, string>
   set_pageDataStore: (pageData: PageDataStoreType<T>) => void
@@ -37,25 +37,24 @@ export function useTablePageHttp<T>({
 
     set_loading(true)
 
-    http()
-      .then(res => {
+    http.then(res => {
 
-        const tableDataKey = pageDataMap.get("tableData") || "tableData";
+      const tableDataKey = pageDataMap.get("tableData") || "tableData";
 
-        const totalKey = pageDataMap.get("total") || "total";
+      const totalKey = pageDataMap.get("total") || "total";
 
-        set_pageDataStore({
-          tableData: res[tableDataKey],
-          pageNumber: requestParamsStore.pageNumber,
-          pageSize: requestParamsStore.pageSize,
-          total: res[totalKey],
-          other: Object
-            .entries(res)
-            .filter(item => item[0] !== tableDataKey && item[0] !== totalKey)
-            .reduce((pre, cur) => ({ ...pre, [cur[0]]: cur[1] }), {})
-        })
-
+      set_pageDataStore({
+        tableData: res[tableDataKey],
+        pageNumber: requestParamsStore.pageNumber,
+        pageSize: requestParamsStore.pageSize,
+        total: res[totalKey],
+        other: Object
+          .entries(res)
+          .filter(item => item[0] !== tableDataKey && item[0] !== totalKey)
+          .reduce((pre, cur) => ({ ...pre, [cur[0]]: cur[1] }), {})
       })
+
+    })
       .finally(() => set_loading(false))
 
     /** 如果参数了请求回收函数，则在组件注销时进行请求回收 */
