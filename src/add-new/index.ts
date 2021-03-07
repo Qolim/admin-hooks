@@ -1,7 +1,7 @@
 /*
  * @Author: LimingQi
  * @Date: 2021-03-07 06:30:36
- * @LastEditTime: 2021-03-07 08:25:22
+ * @LastEditTime: 2021-03-07 08:29:50
  * @LastEditors: LimingQi
  * @Description: 新增功能
  * @FilePath: /admin-hooks/src/add-new/index.ts
@@ -54,6 +54,7 @@ export function useAddNew<F = any, R = any>(
       if (Array.isArray(httpAbout)) {
         return httpAbout[1]
       }
+
     }
   }, [addNewFormDataStore])
 
