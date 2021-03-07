@@ -14,7 +14,7 @@ import {
   GetPageDataRequestParamsStoreTypes,
   InitGetPageDataRequestParamsStoreTypes,
   SetRequestParamsStoreType
-} from "../types"
+} from "../../types"
 
 
 /**

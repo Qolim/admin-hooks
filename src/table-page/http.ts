@@ -15,7 +15,7 @@ import {
   PageDataMapType,
   SetLoadingType,
   SetPageDataStoreType
-} from "./types"
+} from "../types"
 
 export function useTablePageHttp<T>({
   requestParamsStore,

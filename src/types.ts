@@ -1,10 +1,10 @@
 /*
  * @Author: LimingQi
  * @Date: 2021-03-07 07:03:40
- * @LastEditTime: 2021-03-07 07:40:53
+ * @LastEditTime: 2021-03-07 08:21:05
  * @LastEditors: LimingQi
  * @Description:类型定义文件
- * @FilePath: /admin-hooks/src/table-page/types.ts
+ * @FilePath: /admin-hooks/src/types.ts
  * Github: https://github.com/Qolim
  */
 
@@ -55,3 +55,5 @@ export type AddNewRequestType<F> = (formData: F) => Promise<any> | [Promise<any>
 export type UpdateTablePageDataType = () => void
 
 export type SetAddNewFormDataType<F> = (addNewFormDataStore: F | ((addNewFormDataStore: F) => F)) => void
+
+export type AfterRequestType<R> = (res: R) => void

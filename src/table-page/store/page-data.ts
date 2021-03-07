@@ -1,7 +1,7 @@
 /*
  * @Author: LimingQi
  * @Date: 2021-03-07 03:25:37
- * @LastEditTime: 2021-03-07 07:34:14
+ * @LastEditTime: 2021-03-07 08:13:12
  * @LastEditors: LimingQi
  * @Description:页面显示数据状态hook
  * @FilePath: /admin-hooks/src/table-page/store/page-data.ts
@@ -9,7 +9,7 @@
  */
 
 import React from "react";
-import { PageDataStoreType, SetPageDataStoreType } from "../types";
+import { PageDataStoreType, SetPageDataStoreType } from "../../types";
 
 /**
  * 列表页数据管理hook

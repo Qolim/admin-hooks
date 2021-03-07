@@ -1,7 +1,7 @@
 /*
  * @Author: LimingQi
  * @Date: 2021-03-07 02:40:45
- * @LastEditTime: 2021-03-07 07:47:34
+ * @LastEditTime: 2021-03-07 08:21:35
  * @LastEditors: LimingQi
  * @Description:列表页请求逻辑以及数据管理hook
  * @FilePath: /admin-hooks/src/table-page/index.ts
@@ -9,7 +9,6 @@
  */
 
 import React from "react"
-import { useAddNew } from "./add-new"
 import { useTablePageHttp } from "./http"
 import {
   usePageDataStore,
@@ -18,6 +17,7 @@ import {
 import {
   ChangeRequestFiltersType,
   ChangeRequestPageType,
+  GetDataRequestType,
   GetPageDataRequestParamsStoreTypes,
   InitGetPageDataRequestParamsStoreTypes,
   PageDataMapType,
@@ -26,17 +26,17 @@ import {
   SetAddNewFormDataType,
   SetRequestParamsStoreType,
   UpdateTablePageDataType
-} from "./types"
+} from "../types"
 
 /**
  * 列表页请求逻辑以及数据管理hook
- * @param requests 
+ * @param getDataRequest 请求数据函数 接受请求参数 返回一个请求Promise或者[请求Promise,注销请求函数]的元祖
  * @param pageDataMap 接口返回参数 "tableData" 和 "total"的字段映射
  * @param initRequestParamsStore 初始请求参数配置
  * @returns 列表页状态 以及修改状态的函数
  */
-export function useTablePage<T = any, F = any>(
-  requests: RequestsTypes,
+export function useTablePage<T = any>(
+  getDataRequest: GetDataRequestType,
   pageDataMap?: PageDataMapType,
   initRequestParamsStore?: InitGetPageDataRequestParamsStoreTypes
 ): {
@@ -49,12 +49,7 @@ export function useTablePage<T = any, F = any>(
   changeRequestPageSize: ChangeRequestPageType
   changeRequestOther: ChangeRequestFiltersType
   updateTablePageData: UpdateTablePageDataType
-  addNewLoading: boolean
-  addNewFormDataStore: F | undefined
-  addNew: SetAddNewFormDataType<F>
 } {
-
-  const { getDataRequest, addNewRequest } = requests
 
   /** 请求参数数据相关 */
   const {
@@ -71,16 +66,6 @@ export function useTablePage<T = any, F = any>(
     pageDataStore,
     set_pageDataStore,
   } = usePageDataStore<T>()
-
-  /** 新增数据hook*/
-  const {
-    addNewLoading,
-    addNew,
-    addNewFormDataStore
-  } = useAddNew<F>(
-    addNewRequest || (() => new Promise(() => { })),
-    updateTablePageData
-  )
 
   /** 请求加载状态 */
   const [
@@ -121,8 +106,5 @@ export function useTablePage<T = any, F = any>(
     changeRequestPageSize,
     changeRequestOther,
     updateTablePageData,
-    addNewFormDataStore,
-    addNewLoading,
-    addNew,
   }
 }
