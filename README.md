@@ -73,6 +73,8 @@ npm i admin-hooks -S
   )
 ```
 
+  
+
 * useAddNew
 
 ```typescript
