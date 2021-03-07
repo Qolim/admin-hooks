@@ -36,7 +36,7 @@ npm i admin-hooks -S
       // 状态中的请求参数
       params
     ) =>
-      // 返回一个Promise
+      // 返回一个Promise 只会处理Promise.then 错误请在返回Promise之前过滤处理
       new Promise((resolve, reject) => {
         // ...
       }) |

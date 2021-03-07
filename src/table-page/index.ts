@@ -1,7 +1,7 @@
 /*
  * @Author: LimingQi
  * @Date: 2021-03-07 02:40:45
- * @LastEditTime: 2021-03-07 08:21:35
+ * @LastEditTime: 2021-03-07 08:28:50
  * @LastEditors: LimingQi
  * @Description:列表页请求逻辑以及数据管理hook
  * @FilePath: /admin-hooks/src/table-page/index.ts
@@ -30,7 +30,7 @@ import {
 
 /**
  * 列表页请求逻辑以及数据管理hook
- * @param getDataRequest 请求数据函数 接受请求参数 返回一个请求Promise或者[请求Promise,注销请求函数]的元祖
+ * @param getDataRequest 请求数据函数(只会处理Promise.then 错误请在返回Promise之前过滤处理) 接受请求参数 返回一个请求Promise或者[请求Promise,注销请求函数]的元祖
  * @param pageDataMap 接口返回参数 "tableData" 和 "total"的字段映射
  * @param initRequestParamsStore 初始请求参数配置
  * @returns 列表页状态 以及修改状态的函数
