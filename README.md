@@ -72,3 +72,38 @@ npm i admin-hooks -S
     }
   )
 ```
+
+* useAddNew
+
+```typescript
+  const {
+    // 新增函数 接受新增的表单数据
+    addNew,
+    // 请求加载状态
+    addNewLoading,
+    // 表单数据
+    addNewFormDataStore
+  } = useAddNew<
+    // 表单数据类型 默认any
+    { name: string },
+    // Promise.then 中回调参数类型 默认any
+    { code: number, success: boolean }
+  >(
+    // 第一个参数为请求函数 接受表单数据作为参数 
+    (
+      // 表单数据
+      addNewFormDataStore
+    ) =>
+      // 返回一个Promise 只会处理Promise.then 错误请在返回Promise之前过滤处理
+      new Promise(() => { }) |
+      // 或者返回一个元祖
+      [
+        //  第一项为请求的Promise
+        new Promise(() => { }),
+        // 第二项为注销请求的函数
+        () => { }
+      ],
+    // 第一个参数为请求执行结束(.then) 后执行的函数 可不传
+    () => { }
+  )
+```
