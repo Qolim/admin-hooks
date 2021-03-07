@@ -39,18 +39,18 @@ npm i admin-hooks -S
       // 返回一个Promise 只会处理Promise.then 错误请在返回Promise之前过滤处理
       new Promise((resolve, reject) => {
         // ...
-      }) |
-      //或者返回一个元祖
-      [
-        // 第一项为请求的Promise
-        new Promise((resolve, reject) => {
-          // ...
-        }),
-        //第二项为注销请求的函数
-        ()=>{
-          //...
-        }
-      ]
+      })
+      // //或者返回一个元祖
+      // [
+      // // 第一项为请求的Promise
+      // new Promise((resolve, reject) => {
+      //   // ...
+      // }),
+      // //第二项为注销请求的函数
+      // () => {
+      //   //...
+      // }
+      // ]
       ,
     // 第二个参数为接口返回数据到 pageDataStore(表格数据) 的字段映射 不传使用默认
     {
@@ -72,8 +72,6 @@ npm i admin-hooks -S
     }
   )
 ```
-
-  
 
 * useAddNew
 
@@ -97,14 +95,15 @@ npm i admin-hooks -S
       addNewFormDataStore
     ) =>
       // 返回一个Promise 只会处理Promise.then 错误请在返回Promise之前过滤处理
-      new Promise(() => { }) |
-      // 或者返回一个元祖
-      [
-        //  第一项为请求的Promise
-        new Promise(() => { }),
-        // 第二项为注销请求的函数
-        () => { }
-      ],
+      new Promise(() => { })
+      // // 或者返回一个元祖
+      // [
+      // //  第一项为请求的Promise
+      // new Promise(() => { }),
+      // // 第二项为注销请求的函数
+      // () => { }
+      // ]
+      ,
     // 第一个参数为请求执行结束(.then) 后执行的函数 可不传
     () => { }
   )
