@@ -1,7 +1,7 @@
 /*
  * @Author: LimingQi
  * @Date: 2021-03-07 07:03:40
- * @LastEditTime: 2021-03-07 08:21:05
+ * @LastEditTime: 2021-03-09 13:12:57
  * @LastEditors: LimingQi
  * @Description:类型定义文件
  * @FilePath: /admin-hooks/src/types.ts
@@ -56,4 +56,12 @@ export type UpdateTablePageDataType = () => void
 
 export type SetAddNewFormDataType<F> = (addNewFormDataStore: F | ((addNewFormDataStore: F) => F)) => void
 
-export type AfterRequestType<R> = (res: R) => void
+export type GetDetailRequestType<T> = Promise<T>
+
+export type GetDetailRequestsType<T> = GetDetailRequestType<T>[]
+
+export type DeleteRequestType<P, T> = (params: P) => Promise<T>
+
+export type AfterDeleteType = (success: boolean) => void
+
+export type EditRequest<D, T> = (data: D) => Promise<T>

@@ -1,7 +1,7 @@
 /*
  * @Author: LimingQi
  * @Date: 2021-03-07 06:30:36
- * @LastEditTime: 2021-03-07 08:29:50
+ * @LastEditTime: 2021-03-09 13:13:51
  * @LastEditors: LimingQi
  * @Description: 新增功能
  * @FilePath: /admin-hooks/src/add-new/index.ts
@@ -11,7 +11,6 @@
 import React from "react";
 import {
   AddNewRequestType,
-  AfterRequestType,
   SetAddNewFormDataType
 } from "../types";
 
@@ -21,9 +20,9 @@ import {
  * @param afterRequest 请求结束后执行的函数(.then中的回调,错误处理需自行在addNewRequest中处理) 接受Promise.then中的res作为参数
  * @returns 返回请求加载状态 新增函数(传入新增表单) 新增表单 
  */
-export function useAddNew<F = any, R = any>(
+export function useAddNew<F = any>(
   addNewRequest: AddNewRequestType<F>,
-  afterRequest?: AfterRequestType<R>
+  afterRequest?: (success: boolean) => void
 ): {
   addNewLoading: boolean
   addNew: SetAddNewFormDataType<F>
@@ -45,10 +44,15 @@ export function useAddNew<F = any, R = any>(
       const promise = Array.isArray(httpAbout) ? httpAbout[0] : httpAbout
 
       promise
-        .then((res: R) => {
-          afterRequest && afterRequest(res)
+        .then(() => {
+          afterRequest && afterRequest(true)
         })
-        .finally(() => set_loading(false))
+        .catch(() => {
+          afterRequest && afterRequest(false)
+        })
+        .finally(() => {
+          set_loading(false)
+        })
 
       /** 如果传入了请求回收函数，则在组件注销时进行请求回收 */
       if (Array.isArray(httpAbout)) {
