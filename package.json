@@ -1,6 +1,6 @@
 {
   "name": "admin-hooks",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "hooks from admin systom with react",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
