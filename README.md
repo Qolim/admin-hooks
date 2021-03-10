@@ -92,18 +92,18 @@ npm i admin-hooks -S
   P
  >({ 
   //请求函数(接受请求参数作为参数)
-  request:(data:D)=>Promise<R>,
+  request:(data?:D)=>Promise<R>,
   //请求参数
-  requestData:D,
+  requestData?:D,
   //请求完成回调
-  afterRequest:()=>void,
+  afterRequest?:()=>void,
   //取消请求函数
-  cancelRequest:()=>void,
+  cancelRequest?:()=>void,
   //返回结果转换函数
-  responsePipe:(res:R)=>P,
+  responsePipe?:(res:R)=>P,
   //初始默认返回值
-  responseInit:P,
+  responseInit?:P,
   //进入组件自动发起请求的状态依赖(不传则不会自动发起请求)
-  autoBy:any[]
+  autoBy?:any[]
 })
 ```
