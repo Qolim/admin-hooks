@@ -107,3 +107,26 @@ npm i admin-hooks -S
   autoBy?:any[]
 })
 ```
+
+* useAction
+```typescript
+  const [handle,state] = useAction<
+  // 状态值类型默认 any
+  S，
+  // 执行函数接受的参数列表
+  E
+  >(
+    // 第一个参数为事件函数 接受上一个state为参数 返回一个新的state
+    action:(state:S)=>S,
+    // 第二个参数为初始state值
+    initState:S
+  )=>(
+    // 返回一个数组
+    [
+      //第一项为执行函数
+      handle:(...args:E)=>void,
+      // 第二项为状态值
+      state:S
+    ]
+  )
+```

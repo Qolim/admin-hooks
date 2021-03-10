@@ -27,6 +27,7 @@
     "typescript": "^4.2.3"
   },
   "dependencies": {
+    "action-hooks": "^0.0.3",
     "react": "^17.0.1"
   }
 }
