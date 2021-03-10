@@ -1,19 +1,16 @@
 /*
  * @Author: LimingQi
  * @Date: 2021-03-07 02:40:45
- * @LastEditTime: 2021-03-07 08:28:50
+ * @LastEditTime: 2021-03-10 11:34:48
  * @LastEditors: LimingQi
  * @Description:列表页请求逻辑以及数据管理hook
  * @FilePath: /admin-hooks/src/table-page/index.ts
  * Github: https://github.com/Qolim
  */
 
-import React from "react"
-import { useTablePageHttp } from "./http"
-import {
-  usePageDataStore,
-  useRequestParamsStore,
-} from "./store"
+import React from "react";
+import { useHttp } from "..";
+import { useRequestParamsStore } from "./store";
 import {
   ChangeRequestFiltersType,
   ChangeRequestPageType,
@@ -22,21 +19,19 @@ import {
   InitGetPageDataRequestParamsStoreTypes,
   PageDataMapType,
   PageDataStoreType,
-  RequestsTypes,
-  SetAddNewFormDataType,
   SetRequestParamsStoreType,
   UpdateTablePageDataType
-} from "../types"
+} from "../types";
 
 /**
  * 列表页请求逻辑以及数据管理hook
- * @param getDataRequest 请求数据函数(只会处理Promise.then 错误请在返回Promise之前过滤处理) 接受请求参数 返回一个请求Promise或者[请求Promise,注销请求函数]的元祖
+ * @param request 请求数据函数(只会处理Promise.then 错误请在返回Promise之前过滤处理)接受请求参数返回一个请求Promise，或者[请求函数,注销请求函数]的元祖
  * @param pageDataMap 接口返回参数 "tableData" 和 "total"的字段映射
  * @param initRequestParamsStore 初始请求参数配置
  * @returns 列表页状态 以及修改状态的函数
  */
 export function useTablePage<T = any>(
-  getDataRequest: GetDataRequestType,
+  request: GetDataRequestType,
   pageDataMap?: PageDataMapType,
   initRequestParamsStore?: InitGetPageDataRequestParamsStoreTypes
 ): {
@@ -61,17 +56,6 @@ export function useTablePage<T = any>(
     changeRequestOther
   } = useRequestParamsStore(initRequestParamsStore)
 
-  /** 表格数据相关 */
-  const {
-    pageDataStore,
-    set_pageDataStore,
-  } = usePageDataStore<T>()
-
-  /** 请求加载状态 */
-  const [
-    loading,
-    set_loading
-  ] = React.useState(false)
 
   /** 手动触发更行时间戳 */
   const [
@@ -79,14 +63,47 @@ export function useTablePage<T = any>(
     set_updateTimestamp
   ] = React.useState<number>(0)
 
-  /** 数据请求kook */
-  useTablePageHttp({
-    requestParamsStore,
-    getDataRequest,
-    set_loading,
-    pageDataMap,
-    set_pageDataStore,
-    updateTimestamp
+
+  /** 初始页面数据 */
+  const initPageData = {
+    tableData: [],
+    pageNumber: 0,
+    pageSize: 0,
+    total: 0,
+    other: {}
+  }
+
+  /** 请求结果转换函数 */
+  const responsePipe = (res: any) => {
+    pageDataMap = pageDataMap || {}
+    const tableDataKey = pageDataMap.tableData || "tableData";
+    const totalKey = pageDataMap.total || "total";
+    return {
+      tableData: res[tableDataKey],
+      pageNumber: requestParamsStore.pageNumber,
+      pageSize: requestParamsStore.pageSize,
+      total: res[totalKey],
+      other: Object.entries(res)
+        .filter(item => item[0] !== tableDataKey && item[0] !== totalKey)
+        .reduce((pre, cur) => ({ ...pre, [cur[0]]: cur[1] }), {})
+    }
+  }
+
+  /** 请求 */
+  const {
+    response: pageDataStore,
+    loading
+  }: any = useHttp<
+    any,
+    GetPageDataRequestParamsStoreTypes,
+    PageDataStoreType<T>
+  >({
+    request: Array.isArray(request) ? request[0] : request,
+    requestData: requestParamsStore,
+    cancelRequest: Array.isArray(request) ? request[1] : undefined,
+    autoBy: [requestParamsStore, updateTimestamp],
+    responsePipe,
+    responseInit: initPageData
   })
 
   /**

@@ -1,13 +1,28 @@
 /*
  * @Author: LimingQi
  * @Date: 2021-03-07 07:03:40
- * @LastEditTime: 2021-03-09 13:12:57
+ * @LastEditTime: 2021-03-10 11:25:30
  * @LastEditors: LimingQi
  * @Description:类型定义文件
  * @FilePath: /admin-hooks/src/types.ts
  * Github: https://github.com/Qolim
  */
 
+export type UseHttpPropsType<R = any, D = any, P = R> = {
+  request: (data?: D) => Promise<R>
+  requestData?: D
+  cancelRequest?: () => void
+  afterRequest?: (data?: R) => void
+  responsePipe?: (response: R) => P
+  responseInit?: P
+  autoBy?: any[]
+}
+
+export type UseHttpReturnType<R = any> = {
+  http: () => void
+  response: R
+  loading: boolean
+}
 
 export type InitGetPageDataRequestParamsStoreTypes = {
   filters?: { [name: string]: any }
@@ -40,7 +55,7 @@ export type SetRequestParamsStoreType = (requestParams: GetPageDataRequestParams
 
 export type SetLoadingType = (loading: boolean | ((l: boolean) => boolean)) => void
 
-export type GetDataRequestType = (requestParams: GetPageDataRequestParamsStoreTypes) => [Promise<any>, () => void] | (Promise<any>)
+export type GetDataRequestType = (requestParams: GetPageDataRequestParamsStoreTypes) => Promise<any> | [(requestParams: GetPageDataRequestParamsStoreTypes) => Promise<any>, () => void]
 
 export type PageDataMapType = { tableData?: string, total?: string }
 
@@ -65,3 +80,7 @@ export type DeleteRequestType<P, T> = (params: P) => Promise<T>
 export type AfterDeleteType = (success: boolean) => void
 
 export type EditRequest<D, T> = (data: D) => Promise<T>
+
+export type ObjesonType = { [name: string]: any }
+
+export type HttpMethodsType = "GET" | "POST" | "DELETE" | "PUT" | "PATCH"
