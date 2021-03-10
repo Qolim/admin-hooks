@@ -40,17 +40,17 @@ npm i admin-hooks -S
       new Promise((resolve, reject) => {
         // ...
       })
-      // //或者返回一个元祖
-      // [
-      // // 第一项为请求的Promise
-      // new Promise((resolve, reject) => {
-      //   // ...
-      // }),
-      // //第二项为注销请求的函数
-      // () => {
-      //   //...
-      // }
-      // ]
+    // //或者 一个元祖
+    // [
+    // // 第一项为请求函数
+    // (params) => new Promise((resolve, reject) => {
+    //   // ...
+    // }),
+    // //第二项为注销请求的函数
+    // () => {
+    //   //...
+    // }
+    // ]
       ,
     // 第二个参数为接口返回数据到 pageDataStore(表格数据) 的字段映射 不传使用默认
     {
@@ -73,38 +73,37 @@ npm i admin-hooks -S
   )
 ```
 
-* useAddNew
+* useHttp
 
 ```typescript
-  const {
-    // 新增函数 接受新增的表单数据
-    addNew,
-    // 请求加载状态
-    addNewLoading,
-    // 表单数据
-    addNewFormDataStore
-  } = useAddNew<
-    // 表单数据类型 默认any
-    { name: string },
-    // Promise.then 中回调参数类型 默认any
-    { code: number, success: boolean }
-  >(
-    // 第一个参数为请求函数 接受表单数据作为参数 
-    (
-      // 表单数据
-      addNewFormDataStore
-    ) =>
-      // 返回一个Promise 只会处理Promise.then 错误请在返回Promise之前过滤处理
-      new Promise(() => { })
-      // // 或者返回一个元祖
-      // [
-      // //  第一项为请求的Promise
-      // new Promise(() => { }),
-      // // 第二项为注销请求的函数
-      // () => { }
-      // ]
-      ,
-    // 第一个参数为请求执行结束(.then) 后执行的函数 可不传
-    () => { }
-  )
+ const {
+  //http执行函数
+  http,
+  //请求返回值 (若传入responsePipe 则为转换后的值)
+  response,
+  //请求加载状态
+  loading,
+ } = useHttp<
+  // respinse类型定义 默认any
+  R,
+  //requestData类型定义 默认any
+  D,
+  //responsePipe转换后的response 默认R
+  P
+ >({ 
+  //请求函数(接受请求参数作为参数)
+  request:(data:D)=>Promise<R>,
+  //请求参数
+  requestData:D,
+  //请求完成回调
+  afterRequest:()=>void,
+  //取消请求函数
+  cancelRequest:()=>void,
+  //返回结果转换函数
+  responsePipe:(res:R)=>P,
+  //初始默认返回值
+  responseInit:P,
+  //进入组件自动发起请求的状态依赖(不传则不会自动发起请求)
+  autoBy:any[]
+})
 ```
