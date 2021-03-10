@@ -29,7 +29,7 @@ npm i admin-hooks -S
     updateTablePageData
   } = useTablePage<
     // 每项列表数据的类型定义 默认any
-    { name: string }
+    L
   >(
     // 第一个参数为请求函数
     (

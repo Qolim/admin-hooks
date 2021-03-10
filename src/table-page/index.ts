@@ -1,7 +1,7 @@
 /*
  * @Author: LimingQi
  * @Date: 2021-03-07 02:40:45
- * @LastEditTime: 2021-03-10 11:34:48
+ * @LastEditTime: 2021-03-10 12:48:23
  * @LastEditors: LimingQi
  * @Description:列表页请求逻辑以及数据管理hook
  * @FilePath: /admin-hooks/src/table-page/index.ts
@@ -57,7 +57,7 @@ export function useTablePage<T = any>(
   } = useRequestParamsStore(initRequestParamsStore)
 
 
-  /** 手动触发更行时间戳 */
+  /** 手动触发更新的时间戳 */
   const [
     updateTimestamp,
     set_updateTimestamp
