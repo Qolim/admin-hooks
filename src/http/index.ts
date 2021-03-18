@@ -46,14 +46,12 @@ export function useHttp<R = any, D = any, P = R>({
       .finally(() => { set_loading(false) })
   }
 
-  /** 注销请求 */
-  React.useEffect(() => cancelRequest, [])
-
   /** 进入组件自动请求 */
   React.useEffect(() => {
-    if (autoBy !== undefined) {
+    if (Array.isArray(autoBy)) {
       http()
     }
+    return cancelRequest
   }, autoBy ? autoBy : [])
 
   return {

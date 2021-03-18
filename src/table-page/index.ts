@@ -109,9 +109,9 @@ export function useTablePage<T = any>(
   /**
    * 手动触发表格请求 更新数据
    */
-  function updateTablePageData(): void {
+  const updateTablePageData = React.useCallback((): void => {
     set_updateTimestamp(new Date().valueOf())
-  }
+  }, [])
 
   return {
     pageDataStore,
