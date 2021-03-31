@@ -1,13 +1,3 @@
-/*
- * @Author: LimingQi
- * @Date: 2021-03-07 02:40:45
- * @LastEditTime: 2021-03-10 12:48:23
- * @LastEditors: LimingQi
- * @Description:列表页请求逻辑以及数据管理hook
- * @FilePath: /admin-hooks/src/table-page/index.ts
- * Github: https://github.com/Qolim
- */
-
 import React from "react";
 import { useHttp } from "..";
 import { useRequestParamsStore } from "./store";
@@ -20,7 +10,7 @@ import {
   PageDataMapType,
   PageDataStoreType,
   SetRequestParamsStoreType,
-  UpdateTablePageDataType
+  UpdateTablePageDataType,
 } from "../types";
 
 /**
@@ -35,17 +25,16 @@ export function useTablePage<T = any>(
   pageDataMap?: PageDataMapType,
   initRequestParamsStore?: InitGetPageDataRequestParamsStoreTypes
 ): {
-  pageDataStore: PageDataStoreType<T>
-  requestParamsStore: GetPageDataRequestParamsStoreTypes
-  loading: boolean
-  set_requestParamsStore: SetRequestParamsStoreType
-  changeRequestFilters: ChangeRequestFiltersType
-  changeRequestPageNumber: ChangeRequestPageType
-  changeRequestPageSize: ChangeRequestPageType
-  changeRequestOther: ChangeRequestFiltersType
-  updateTablePageData: UpdateTablePageDataType
+  pageDataStore: PageDataStoreType<T>;
+  requestParamsStore: GetPageDataRequestParamsStoreTypes;
+  loading: boolean;
+  set_requestParamsStore: SetRequestParamsStoreType;
+  changeRequestFilters: ChangeRequestFiltersType;
+  changeRequestPageNumber: ChangeRequestPageType;
+  changeRequestPageSize: ChangeRequestPageType;
+  changeRequestOther: ChangeRequestFiltersType;
+  updateTablePageData: UpdateTablePageDataType;
 } {
-
   /** 请求参数数据相关 */
   const {
     requestParamsStore,
@@ -53,16 +42,11 @@ export function useTablePage<T = any>(
     changeRequestFilters,
     changeRequestPageNumber,
     changeRequestPageSize,
-    changeRequestOther
-  } = useRequestParamsStore(initRequestParamsStore)
-
+    changeRequestOther,
+  } = useRequestParamsStore(initRequestParamsStore);
 
   /** 手动触发更新的时间戳 */
-  const [
-    updateTimestamp,
-    set_updateTimestamp
-  ] = React.useState<number>(0)
-
+  const [updateTimestamp, set_updateTimestamp] = React.useState<number>(0);
 
   /** 初始页面数据 */
   const initPageData = {
@@ -70,12 +54,12 @@ export function useTablePage<T = any>(
     pageNumber: 0,
     pageSize: 0,
     total: 0,
-    other: {}
-  }
+    other: {},
+  };
 
   /** 请求结果转换函数 */
   const responsePipe = (res: any) => {
-    pageDataMap = pageDataMap || {}
+    pageDataMap = pageDataMap || {};
     const tableDataKey = pageDataMap.tableData || "tableData";
     const totalKey = pageDataMap.total || "total";
     return {
@@ -84,16 +68,13 @@ export function useTablePage<T = any>(
       pageSize: requestParamsStore.pageSize,
       total: res[totalKey],
       other: Object.entries(res)
-        .filter(item => item[0] !== tableDataKey && item[0] !== totalKey)
-        .reduce((pre, cur) => ({ ...pre, [cur[0]]: cur[1] }), {})
-    }
-  }
+        .filter((item) => item[0] !== tableDataKey && item[0] !== totalKey)
+        .reduce((pre, cur) => ({ ...pre, [cur[0]]: cur[1] }), {}),
+    };
+  };
 
   /** 请求 */
-  const {
-    response: pageDataStore,
-    loading
-  }: any = useHttp<
+  const { response: pageDataStore, loading }: any = useHttp<
     any,
     GetPageDataRequestParamsStoreTypes,
     PageDataStoreType<T>
@@ -103,15 +84,15 @@ export function useTablePage<T = any>(
     cancelRequest: Array.isArray(request) ? request[1] : undefined,
     autoBy: [requestParamsStore, updateTimestamp],
     responsePipe,
-    responseInit: initPageData
-  })
+    responseInit: initPageData,
+  });
 
   /**
    * 手动触发表格请求 更新数据
    */
   const updateTablePageData = React.useCallback((): void => {
-    set_updateTimestamp(new Date().valueOf())
-  }, [])
+    set_updateTimestamp(new Date().valueOf());
+  }, []);
 
   return {
     pageDataStore,
@@ -123,5 +104,5 @@ export function useTablePage<T = any>(
     changeRequestPageSize,
     changeRequestOther,
     updateTablePageData,
-  }
+  };
 }

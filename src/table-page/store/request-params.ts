@@ -1,21 +1,11 @@
-/*
- * @Author: LimingQi
- * @Date: 2021-03-07 03:04:05
- * @LastEditTime: 2021-03-07 07:31:43
- * @LastEditors: LimingQi
- * @Description:列表页请求参数状态集合
- * @FilePath: /admin-hooks/src/table-page/store/request-params.ts
- * Github: https://github.com/Qolim
- */
-import React from "react"
+import React from "react";
 import {
   ChangeRequestFiltersType,
   ChangeRequestPageType,
   GetPageDataRequestParamsStoreTypes,
   InitGetPageDataRequestParamsStoreTypes,
-  SetRequestParamsStoreType
-} from "../../types"
-
+  SetRequestParamsStoreType,
+} from "../../types";
 
 /**
  * 请求参数状态管理hook
@@ -25,51 +15,56 @@ import {
 export function useRequestParamsStore(
   initRequestParamsStore?: InitGetPageDataRequestParamsStoreTypes
 ): {
-  requestParamsStore: GetPageDataRequestParamsStoreTypes
-  set_requestParamsStore: SetRequestParamsStoreType
-  changeRequestFilters: ChangeRequestFiltersType
-  changeRequestPageNumber: ChangeRequestPageType
-  changeRequestPageSize: ChangeRequestPageType
-  changeRequestOther: ChangeRequestFiltersType
+  requestParamsStore: GetPageDataRequestParamsStoreTypes;
+  set_requestParamsStore: SetRequestParamsStoreType;
+  changeRequestFilters: ChangeRequestFiltersType;
+  changeRequestPageNumber: ChangeRequestPageType;
+  changeRequestPageSize: ChangeRequestPageType;
+  changeRequestOther: ChangeRequestFiltersType;
 } {
-
   /** 默认初始参数 */
   initRequestParamsStore = initRequestParamsStore || {
     filters: {},
     pageNumber: 1,
     pageSize: 10,
-    other: {}
-  }
+    other: {},
+  };
 
   /** 请求参数状态 */
   const [
     requestParamsStore,
-    set_requestParamsStore
+    set_requestParamsStore,
   ] = React.useState<GetPageDataRequestParamsStoreTypes>({
     filters: initRequestParamsStore.filters || {},
     pageNumber: initRequestParamsStore.pageNumber || 1,
     pageSize: initRequestParamsStore.pageSize || 10,
-    other: initRequestParamsStore.other || {}
-  })
+    other: initRequestParamsStore.other || {},
+  });
 
   /**
    * 更新请求检索项
    * @param filters 更新后的检索项
    */
   const changeRequestFilters = React.useCallback(
-    (filters: { [name: string]: any } | ((f: { [name: string]: any }) => { [name: string]: any })) => {
+    (
+      filters:
+        | { [name: string]: any }
+        | ((f: { [name: string]: any }) => { [name: string]: any })
+    ) => {
       if (typeof filters === "function") {
-        set_requestParamsStore(s => ({
+        set_requestParamsStore((s) => ({
           ...s,
-          filters: filters(s.filters)
-        }))
+          filters: filters(s.filters),
+        }));
       } else {
-        set_requestParamsStore(s => ({
+        set_requestParamsStore((s) => ({
           ...s,
-          filters
-        }))
+          filters,
+        }));
       }
-    }, [])
+    },
+    []
+  );
 
   /**
    * 更新请求页
@@ -78,17 +73,19 @@ export function useRequestParamsStore(
   const changeRequestPageNumber = React.useCallback(
     (pageNumber: number | ((p: number) => number)) => {
       if (typeof pageNumber === "function") {
-        set_requestParamsStore(s => ({
+        set_requestParamsStore((s) => ({
           ...s,
-          pageNumber: pageNumber(s.pageNumber)
-        }))
+          pageNumber: pageNumber(s.pageNumber),
+        }));
       } else {
-        set_requestParamsStore(s => ({
+        set_requestParamsStore((s) => ({
           ...s,
-          pageNumber
-        }))
+          pageNumber,
+        }));
       }
-    }, [])
+    },
+    []
+  );
 
   /**
    * 更新请求每页数量
@@ -97,36 +94,44 @@ export function useRequestParamsStore(
   const changeRequestPageSize = React.useCallback(
     (pageSize: number | ((p: number) => number)) => {
       if (typeof pageSize === "function") {
-        set_requestParamsStore(s => ({
+        set_requestParamsStore((s) => ({
           ...s,
-          pageSize: pageSize(s.pageSize)
-        }))
+          pageSize: pageSize(s.pageSize),
+        }));
       } else {
-        set_requestParamsStore(s => ({
+        set_requestParamsStore((s) => ({
           ...s,
-          pageSize
-        }))
+          pageSize,
+        }));
       }
-    }, [])
+    },
+    []
+  );
 
   /**
    * 更新其他请求参数
    * @param other 跟新后的其他请求参数
    */
   const changeRequestOther = React.useCallback(
-    (other: { [name: string]: any } | ((o: { [name: string]: any }) => { [name: string]: any })) => {
+    (
+      other:
+        | { [name: string]: any }
+        | ((o: { [name: string]: any }) => { [name: string]: any })
+    ) => {
       if (typeof other === "function") {
-        set_requestParamsStore(s => ({
+        set_requestParamsStore((s) => ({
           ...s,
-          other: other(s.other)
-        }))
+          other: other(s.other),
+        }));
       } else {
-        set_requestParamsStore(s => ({
+        set_requestParamsStore((s) => ({
           ...s,
-          other
-        }))
+          other,
+        }));
       }
-    }, [])
+    },
+    []
+  );
 
   return {
     requestParamsStore,
@@ -134,7 +139,6 @@ export function useRequestParamsStore(
     changeRequestFilters,
     changeRequestPageNumber,
     changeRequestPageSize,
-    changeRequestOther
-  }
-
+    changeRequestOther,
+  };
 }
